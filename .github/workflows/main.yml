@@ -23,4 +23,4 @@ jobs:
 
       - name: Push Dag to gcs
         run: |
-          gsutil -m cp -r ./dags/ ${{ secrets.DAG_BUCKET }}
+          gsutil -m cp -r ./dags gs://us-central1-jeetar-dev-5fb49e8d-bucket/dags
