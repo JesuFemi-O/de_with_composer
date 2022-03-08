@@ -1,0 +1,26 @@
+name: Update Dag Folder
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Cloud Run Deployment
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Setup GCP Service Account
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: 'latest'
+          service_account_email: ${{ secrets.GCP_SA_EMAIL }}
+          service_account_key: ${{ secrets.GCP_SA_CREDENTIAL }}
+          export_default_credentials: true
+
+      - name: Push Dag to gcs
+        run: |
+          gsutil -m cp -r ./dags/ ${{ secrets.DAG_BUCKET }}
